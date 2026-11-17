@@ -1,0 +1,611 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FASHIONISTA - Boutique de Vêtements</title>
+    <style>
+        :root {
+            --primary: #111111;
+            --accent: #e63946;
+            --bg-light: #f9f9f9;
+            --gray: #666666;
+            --border: #e0e0e0;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-light);
+            color: var(--primary);
+            line-height: 1.6;
+        }
+
+        /* En-tête */
+        header {
+            background: #ffffff;
+            border-bottom: 1px solid var(--border);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+
+        .header-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: 800;
+            letter-spacing: 2px;
+            color: var(--primary);
+            text-decoration: none;
+        }
+
+        .logo span {
+            color: var(--accent);
+        }
+
+        .contact-top {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--accent);
+        }
+
+        .cart-btn {
+            background: var(--primary);
+            color: #fff;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: background 0.3s;
+        }
+
+        .cart-btn:hover {
+            background: var(--accent);
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&w=1200&q=80') center/cover;
+            color: white;
+            text-align: center;
+            padding: 80px 20px;
+            margin-bottom: 40px;
+        }
+
+        .hero h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .hero p {
+            font-size: 1.1rem;
+            margin-bottom: 25px;
+            opacity: 0.9;
+        }
+
+        /* Filtres et Recherche */
+        .filters-container {
+            max-width: 1200px;
+            margin: 0 auto 30px auto;
+            padding: 0 20px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .category-filters {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .filter-btn {
+            background: #ffffff;
+            border: 1px solid var(--border);
+            padding: 8px 18px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .filter-btn.active, .filter-btn:hover {
+            background: var(--primary);
+            color: #white;
+            border-color: var(--primary);
+        }
+
+        .search-bar input {
+            padding: 8px 15px;
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            width: 250px;
+            outline: none;
+        }
+
+        /* Grille des produits */
+        .products-grid {
+            max-width: 1200px;
+            margin: 0 auto 60px auto;
+            padding: 0 20px;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            gap: 25px;
+        }
+
+        .product-card {
+            background: #ffffff;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.08);
+        }
+
+        .product-img {
+            height: 280px;
+            width: 100%;
+            object-fit: cover;
+        }
+
+        .product-info {
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+        }
+
+        .product-category {
+            font-size: 12px;
+            text-transform: uppercase;
+            color: var(--gray);
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .product-title {
+            font-size: 16px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .product-price {
+            font-size: 18px;
+            font-weight: 800;
+            color: var(--accent);
+            margin-bottom: 12px;
+        }
+
+        .product-sizes {
+            display: flex;
+            gap: 5px;
+            margin-bottom: 15px;
+        }
+
+        .size-tag {
+            font-size: 11px;
+            background: var(--bg-light);
+            border: 1px solid var(--border);
+            padding: 2px 6px;
+            border-radius: 4px;
+            color: var(--gray);
+        }
+
+        .add-to-cart-btn {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 10px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            margin-top: auto;
+            transition: background 0.2s;
+        }
+
+        .add-to-cart-btn:hover {
+            background: var(--accent);
+        }
+
+        /* Panier Modal */
+        .cart-modal {
+            position: fixed;
+            top: 0;
+            right: -400px;
+            width: 380px;
+            height: 100%;
+            background: #ffffff;
+            box-shadow: -5px 0 15px rgba(0,0,0,0.1);
+            z-index: 1100;
+            transition: right 0.3s ease-in-out;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .cart-modal.open {
+            right: 0;
+        }
+
+        .cart-header {
+            padding: 20px;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .close-cart {
+            background: none;
+            border: none;
+            font-size: 20px;
+            cursor: pointer;
+        }
+
+        .cart-body {
+            padding: 20px;
+            flex-grow: 1;
+            overflow-y: auto;
+        }
+
+        .cart-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .cart-item-details h4 {
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .cart-item-details p {
+            font-size: 13px;
+            color: var(--accent);
+            font-weight: 700;
+        }
+
+        .cart-item-remove {
+            background: none;
+            border: none;
+            color: var(--accent);
+            cursor: pointer;
+            font-size: 12px;
+        }
+
+        .cart-footer {
+            padding: 20px;
+            border-top: 1px solid var(--border);
+            background: var(--bg-light);
+        }
+
+        .cart-total {
+            display: flex;
+            justify-content: space-between;
+            font-size: 18px;
+            font-weight: 800;
+            margin-bottom: 15px;
+        }
+
+        .whatsapp-checkout {
+            background: #25D366;
+            color: white;
+            border: none;
+            width: 100%;
+            padding: 12px;
+            border-radius: 6px;
+            font-weight: 700;
+            cursor: pointer;
+            text-align: center;
+            text-decoration: none;
+            display: block;
+            font-size: 15px;
+            transition: background 0.2s;
+        }
+
+        .whatsapp-checkout:hover {
+            background: #20ba5a;
+        }
+
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 1050;
+            display: none;
+        }
+
+        .overlay.active {
+            display: block;
+        }
+
+        /* Pied de page */
+        footer {
+            background: var(--primary);
+            color: white;
+            padding: 40px 20px;
+            text-align: center;
+        }
+
+        footer p {
+            margin-bottom: 10px;
+            font-size: 14px;
+        }
+
+        .footer-contact {
+            color: var(--accent);
+            font-weight: bold;
+            font-size: 16px;
+        }
+
+        @media(max-width: 768px) {
+            .filters-container {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            .search-bar input {
+                width: 100%;
+            }
+            .cart-modal {
+                width: 100%;
+                right: -100%;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- En-tête -->
+    <header>
+        <div class="header-container">
+            <a href="#" class="logo">FASHION<span>ISTA</span></a>
+            <div class="contact-top">📞 07 87 60 65 01</div>
+            <button class="cart-btn" onclick="toggleCart()">
+                🛒 Panier (<span id="cart-count">0</span>)
+            </button>
+        </div>
+    </header>
+
+    <!-- Section Héro -->
+    <section class="hero">
+        <h1>Nouvelle Collection</h1>
+        <p>Découvrez les tendances mode pour Femmes, Hommes et Enfants en Côte d'Ivoire</p>
+    </section>
+
+    <!-- Filtres et Recherche -->
+    <div class="filters-container">
+        <div class="category-filters">
+            <button class="filter-btn active" onclick="filterProducts('all', this)">Tous</button>
+            <button class="filter-btn" onclick="filterProducts('femme', this)">Femmes</button>
+            <button class="filter-btn" onclick="filterProducts('homme', this)">Hommes</button>
+            <button class="filter-btn" onclick="filterProducts('enfant', this)">Enfants</button>
+        </div>
+        <div class="search-bar">
+            <input type="text" id="search-input" placeholder="Rechercher un vêtement..." oninput="searchProducts()">
+        </div>
+    </div>
+
+    <!-- Catalogue Produits -->
+    <main class="products-grid" id="products-grid">
+        <!-- Les produits seront injectés ici par JavaScript -->
+    </main>
+
+    <!-- Panier Lateral -->
+    <div class="overlay" id="overlay" onclick="toggleCart()"></div>
+    <div class="cart-modal" id="cart-modal">
+        <div class="cart-header">
+            <h3>Votre Panier</h3>
+            <button class="close-cart" onclick="toggleCart()">✕</button>
+        </div>
+        <div class="cart-body" id="cart-items">
+            <!-- Articles du panier -->
+        </div>
+        <div class="cart-footer">
+            <div class="cart-total">
+                <span>Total :</span>
+                <span id="cart-total-price">0 FCFA</span>
+            </div>
+            <button class="whatsapp-checkout" onclick="checkoutWhatsApp()">Commander via WhatsApp</button>
+        </div>
+    </div>
+
+    <!-- Pied de page -->
+    <footer>
+        <p>&copy; 2026 FASHIONISTA - Tous droits réservés.</p>
+        <p>Contactez-nous pour vos commandes et livraisons : <span class="footer-contact">07 87 60 65 01</span></p>
+    </footer>
+
+    <script>
+        // Liste des produits avec prix en Francs CFA
+        const products = [
+            { id: 1, name: "Robe de Soirée Élégante", category: "femme", price: 25000, sizes: ["S", "M", "L"], image: "https://images.unsplash.com/photo-1595777457583-95e059d581b8?auto=format&fit=crop&w=600&q=80" },
+            { id: 2, name: "Costume Homme Slim Fit", category: "homme", price: 65000, sizes: ["M", "L", "XL"], image: "https://images.unsplash.com/photo-1594938298603-c8148c4dae35?auto=format&fit=crop&w=600&q=80" },
+            { id: 3, name: "Ensemble Bébé Coton Doux", category: "enfant", price: 12000, sizes: ["3M", "6M", "12M"], image: "https://images.unsplash.com/photo-1522771930-78848d9293e8?auto=format&fit=crop&w=600&q=80" },
+            { id: 4, name: "Chemise en Lin Décontractée", category: "homme", price: 18000, sizes: ["S", "M", "L", "XL"], image: "https://images.unsplash.com/photo-1602810318383-e386cc2a3ccf?auto=format&fit=crop&w=600&q=80" },
+            { id: 5, name: "Combinaison Casual Femme", category: "femme", price: 22000, sizes: ["S", "M", "L"], image: "https://images.unsplash.com/photo-1509631179647-0177331693ae?auto=format&fit=crop&w=600&q=80" },
+            { id: 6, name: "Robe Princesse Fille", category: "enfant", price: 15000, sizes: ["4A", "6A", "8A"], image: "https://images.unsplash.com/photo-1518831959646-742c3a14ebf7?auto=format&fit=crop&w=600&q=80" },
+            { id: 7, name: "Veste en Jeant Tendance", category: "femme", price: 28000, sizes: ["S", "M", "L"], image: "https://images.unsplash.com/photo-1543076447-215ad9ba6923?auto=format&fit=crop&w=600&q=80" },
+            { id: 8, name: "Polo Classique Homme", category: "homme", price: 14000, sizes: ["M", "L", "XL", "XXL"], image: "https://images.unsplash.com/photo-1581655353564-df123a1eb820?auto=format&fit=crop&w=600&q=80" }
+        ];
+
+        let cart = [];
+        let currentCategory = 'all';
+
+        // Affichage initial des produits
+        function displayProducts(productsToDisplay) {
+            const grid = document.getElementById('products-grid');
+            grid.innerHTML = '';
+
+            if (productsToDisplay.length === 0) {
+                grid.innerHTML = '<p style="grid-column: 1/-1; text-align: center; color: var(--gray);">Aucun produit trouvé.</p>';
+                return;
+            }
+
+            productsToDisplay.forEach(product => {
+                const card = document.createElement('div');
+                card.className = 'product-card';
+                card.innerHTML = `
+                    <img src="${product.image}" alt="${product.name}" class="product-img">
+                    <div class="product-info">
+                        <span class="product-category">${product.category}</span>
+                        <h3 class="product-title">${product.name}</h3>
+                        <div class="product-price">${product.price.toLocaleString()} FCFA</div>
+                        <div class="product-sizes">
+                            ${product.sizes.map(size => `<span class="size-tag">${size}</span>`).join('')}
+                        </div>
+                        <button class="add-to-cart-btn" onclick="addToCart(${product.id})">Ajouter au panier</button>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        // Filtrage par catégorie
+        function filterProducts(category, btn) {
+            currentCategory = category;
+            document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            
+            applyFilters();
+        }
+
+        // Recherche instantanée
+        function searchProducts() {
+            applyFilters();
+        }
+
+        function applyFilters() {
+            const query = document.getElementById('search-input').value.toLowerCase();
+            let filtered = products;
+
+            if (currentCategory !== 'all') {
+                filtered = filtered.filter(p => p.category === currentCategory);
+            }
+
+            if (query.trim() !== '') {
+                filtered = filtered.filter(p => p.name.toLowerCase().includes(query));
+            }
+
+            displayProducts(filtered);
+        }
+
+        // Gestion du Panier
+        function addToCart(productId) {
+            const product = products.find(p => p.id === productId);
+            const cartItem = cart.find(item => item.id === productId);
+
+            if (cartItem) {
+                cartItem.quantity += 1;
+            } else {
+                cart.push({ ...product, quantity: 1 });
+            }
+
+            updateCartUI();
+            toggleCart();
+        }
+
+        function removeFromCart(productId) {
+            cart = cart.filter(item => item.id !== productId);
+            updateCartUI();
+        }
+
+        function updateCartUI() {
+            const countElem = document.getElementById('cart-count');
+            const itemsElem = document.getElementById('cart-items');
+            const totalElem = document.getElementById('cart-total-price');
+
+            const totalCount = cart.reduce((sum, item) => sum + item.quantity, 0);
+            countElem.textContent = totalCount;
+
+            itemsElem.innerHTML = '';
+            let totalPrice = 0;
+
+            if (cart.length === 0) {
+                itemsElem.innerHTML = '<p style="text-align: center; color: var(--gray); margin-top: 20px;">Votre panier est vide.</p>';
+            } else {
+                cart.forEach(item => {
+                    totalPrice += item.price * item.quantity;
+                    const div = document.createElement('div');
+                    div.className = 'cart-item';
+                    div.innerHTML = `
+                        <div class="cart-item-details">
+                            <h4>${item.name}</h4>
+                            <p>${item.price.toLocaleString()} FCFA x ${item.quantity}</p>
+                        </div>
+                        <button class="cart-item-remove" onclick="removeFromCart(${item.id})">Supprimer</button>
+                    `;
+                    itemsElem.appendChild(div);
+                });
+            }
+
+            totalElem.textContent = totalPrice.toLocaleString() + " FCFA";
+        }
+
+        function toggleCart() {
+            document.getElementById('cart-modal').classList.toggle('open');
+            document.getElementById('overlay').classList.toggle('active');
+        }
+
+        // Commande via WhatsApp
+        function checkoutWhatsApp() {
+            if (cart.length === 0) {
+                alert("Votre panier est vide !");
+                return;
+            }
+
+            let message = "Bonjour FASHIONISTA, je souhaite passer commande :\n\n";
+            let total = 0;
+
+            cart.forEach(item => {
+                let sub = item.price * item.quantity;
+                total += sub;
+                message += `- ${item.quantity}x ${item.name} (${item.price.toLocaleString()} FCFA/u)\n`;
+            });
+
+            message += `\n*Total : ${total.toLocaleString()} FCFA*`;
+            message += `\n\nMerci de me contacter pour la livraison en Côte d'Ivoire.`;
+
+            const encodedMessage = encodeURIComponent(message);
+            const phoneNumber = "2250787606501";
+            
+            window.open(`https://wa.me/${phoneNumber}?text=${encodedMessage}`, '_blank');
+        }
+
+        // Lancement initial
+        displayProducts(products);
+    </script>
+</body>
+</html>
